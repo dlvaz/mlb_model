@@ -203,14 +203,30 @@ export function GameCard({ game, showPublishControls = false, showAsOf = true, i
               <div />
               <div className="text-left text-muted-foreground">{game.away.teamName}</div>
             </div>
-            <StatRow 
-              label="ML" 
-              homeValue={game.home.odds.moneyline} 
-              awayValue={game.away.odds.moneyline} 
-              format={formatOdds}
-            />
-            <div className="mt-2 text-xs text-muted-foreground text-center">
-              Good to take down to {formatOdds(game.bestBet.maxOdds)}
+            <div className="space-y-2">
+              <div className="grid grid-cols-[1fr,auto,1fr] gap-2 text-xs font-mono">
+                <div className={cn(
+                  'text-right tabular-nums flex items-center justify-end gap-1',
+                  isBestBetHome && 'text-green-500 font-medium'
+                )}>
+                  {isBestBetHome && <Check className="w-3 h-3" />}
+                  {formatOdds(game.home.odds.moneyline)}
+                </div>
+                <div className="text-center text-muted-foreground">ML</div>
+                <div className={cn(
+                  'text-left tabular-nums flex items-center gap-1',
+                  !isBestBetHome && 'text-green-500 font-medium'
+                )}>
+                  {!isBestBetHome && <Check className="w-3 h-3" />}
+                  {formatOdds(game.away.odds.moneyline)}
+                </div>
+              </div>
+              <div className={cn(
+                "mt-2 text-xs font-bold text-center p-1.5 rounded-md border",
+                "bg-green-500/5 border-green-500/20 text-green-500"
+              )}>
+                Good to {formatOdds(game.bestBet.maxOdds)}
+              </div>
             </div>
           </div>
         </div>

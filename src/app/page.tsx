@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Clock } from 'lucide-react'
 import { formatDate, formatTimeEST } from '@/lib/utils'
 import { VersionBadge } from '@/components/version-badge'
+import { StatsExplainer } from '@/components/stats-explainer'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0 // Disable static page regeneration
@@ -33,6 +34,7 @@ export default async function Home() {
               davaz MLB Model
             </h1>
             <VersionBadge />
+            <StatsExplainer />
           </div>
           {latestUpdateTime && (
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground animate-in fade-in duration-1000">
