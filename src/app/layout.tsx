@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'davaz MLB Dashboard',
-  description: "davaz made a winning model because he's tired of being cooked by parlaydegen and Reece.",
+  description: "davaz made a winning model because he's tired of being cooked by parlaydegen and Reece. Better results than Mango throwing darts.",
 }
 
 export default function RootLayout({
