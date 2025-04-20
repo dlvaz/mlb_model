@@ -32,6 +32,7 @@ export interface Database {
           created_at: string
           updated_at: string
           is_top_pick: boolean
+          fallback_best_bet: boolean
         }
         Insert: {
           game_id: number
@@ -55,6 +56,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
           is_top_pick?: boolean
+          fallback_best_bet?: boolean
         }
         Update: {
           game_id?: number
@@ -78,6 +80,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
           is_top_pick?: boolean
+          fallback_best_bet?: boolean
         }
       }
     }

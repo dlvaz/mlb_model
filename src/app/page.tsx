@@ -37,35 +37,35 @@ export default async function Home() {
             <VersionBadge />
             <StatsExplainer />
           </div>
-          {latestUpdateTime && (
-            <div className="space-y-2 animate-in fade-in duration-1000">
+          <div className="space-y-2 animate-in fade-in duration-1000">
+            {latestUpdateTime && (
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                 <Clock className="w-4 h-4" />
                 <span>Last updated: {formatDate(new Date(latestUpdateTime))}</span>
               </div>
-              <div className="flex items-center justify-center gap-4">
-                <Image 
-                  src="/KEKW.png" 
-                  alt="KEKW emote" 
-                  width={48} 
-                  height={48} 
-                />
-                <Image 
-                  src="/PogO.png" 
-                  alt="PogO emote" 
-                  width={48} 
-                  height={48} 
-                />
-                <Image 
-                  src="/KEKL.gif" 
-                  alt="KEKL emote" 
-                  width={48} 
-                  height={48} 
-                  unoptimized
-                />
-              </div>
+            )}
+            <div className="flex items-center justify-center gap-4">
+              <Image 
+                src="/KEKW.png" 
+                alt="KEKW emote" 
+                width={48} 
+                height={48} 
+              />
+              <Image 
+                src="/PogO.png" 
+                alt="PogO emote" 
+                width={48} 
+                height={48} 
+              />
+              <Image 
+                src="/KEKL.gif" 
+                alt="KEKL emote" 
+                width={48} 
+                height={48} 
+                unoptimized
+              />
             </div>
-          )}
+          </div>
         </div>
         
         <Tabs defaultValue="top-picks" className="w-full mt-8 animate-in fade-in-50 duration-1000">
