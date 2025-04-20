@@ -6,11 +6,13 @@ import { transformGameData } from '@/lib/transforms'
 import { RefreshButton } from '@/components/refresh-button'
 import { PublishAllButton } from '@/components/publish-all-button'
 import { VersionBadge } from '@/components/version-badge'
-import { Clock } from 'lucide-react'
+import { Clock, LogOut } from 'lucide-react'
 import { publishGame } from './actions'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
+import { createBrowserSupabaseClient } from '@/lib/supabase-client'
+import { Button } from '@/components/ui/button'
 
 export const revalidate = 60 // Revalidate every minute
 
@@ -19,6 +21,7 @@ export default function AdminPage() {
   const [games, setGames] = useState<Awaited<ReturnType<typeof getUnpublishedGames>>>([])
   const [loading, setLoading] = useState(true)
   const [publishing, setPublishing] = useState(false)
+  const supabase = createBrowserSupabaseClient()
 
   const loadGames = async () => {
     try {
@@ -36,11 +39,21 @@ export default function AdminPage() {
     loadGames()
   }, [])
 
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut()
+      router.push('/login')
+      router.refresh()
+    } catch (error) {
+      console.error('Error signing out:', error)
+      toast.error('Failed to sign out')
+    }
+  }
+
   const handlePublish = async (gameId: number) => {
     try {
       const result = await publishGame(gameId)
       if (result.success) {
-        // Refresh the games list and router
         await loadGames()
         router.refresh()
       }
@@ -103,6 +116,15 @@ export default function AdminPage() {
             <div className="flex items-center gap-2">
               <PublishAllButton onPublishAll={handlePublishAll} disabled={publishing || games.length === 0} />
               <RefreshButton />
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={handleSignOut}
+                className="gap-2"
+              >
+                <LogOut className="h-4 w-4" />
+                Sign Out
+              </Button>
             </div>
           </div>
           {latestUpdateTime && (
