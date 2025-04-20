@@ -4,7 +4,7 @@ import { getTopPicks, getAllPublishedGames } from '@/lib/supabase'
 import { transformGameData } from '@/lib/transforms'
 import { Badge } from '@/components/ui/badge'
 import { Clock } from 'lucide-react'
-import { formatDate } from '@/lib/utils'
+import { formatDate, formatTimeEST } from '@/lib/utils'
 import { VersionBadge } from '@/components/version-badge'
 
 export const dynamic = 'force-dynamic'
@@ -37,7 +37,7 @@ export default async function Home() {
           {latestUpdateTime && (
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground animate-in fade-in duration-1000">
               <Clock className="w-4 h-4" />
-              <span>Last updated: {new Date(latestUpdateTime).toLocaleString()}</span>
+              <span>Last updated: {formatTimeEST(latestUpdateTime)}</span>
             </div>
           )}
         </div>

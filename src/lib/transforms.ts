@@ -48,6 +48,7 @@ export function transformGameData(game: any): GameComparison {
       bestBet: {
         team: (game.best_bet === game.home_team ? 'home' : 'away') as 'home' | 'away',
         odds: game.best_bet_odds || 0,
+        maxOdds: game.best_bet_max_odds || 0,
         ev: game.best_bet_ev || 0,
       },
       modelCertainty: game.model_certainty || 0,

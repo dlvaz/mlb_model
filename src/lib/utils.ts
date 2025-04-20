@@ -27,10 +27,30 @@ export function formatDate(date: string | Date | null): string {
       day: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
+      timeZone: 'America/New_York',
       timeZoneName: 'short'
     }).format(dateObj)
   } catch (error) {
     console.error('Error formatting date:', error)
+    return 'Invalid Date'
+  }
+}
+
+export function formatTimeEST(date: Date | string | number | null): string {
+  if (!date) return 'N/A'
+  
+  try {
+    const dateObj = new Date(date)
+    if (isNaN(dateObj.getTime())) return 'Invalid Date'
+    
+    return new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      timeZone: 'America/New_York',
+      timeZoneName: 'short'
+    }).format(dateObj)
+  } catch (error) {
+    console.error('Error formatting time:', error)
     return 'Invalid Date'
   }
 }

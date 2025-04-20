@@ -105,6 +105,7 @@ export interface GameComparison {
   bestBet: {
     team: 'home' | 'away';
     odds: number;
+    maxOdds: number;
     ev: number;
   };
   modelCertainty: number;

@@ -13,6 +13,7 @@ import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { createBrowserSupabaseClient } from '@/lib/supabase-client'
 import { Button } from '@/components/ui/button'
+import { formatTimeEST } from '@/lib/utils'
 
 export const revalidate = 60 // Revalidate every minute
 
@@ -130,7 +131,7 @@ export default function AdminPage() {
           {latestUpdateTime && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="w-4 h-4" />
-              <span>Last updated: {new Date(latestUpdateTime).toLocaleString()}</span>
+              <span>Last updated: {formatTimeEST(latestUpdateTime)}</span>
             </div>
           )}
         </div>

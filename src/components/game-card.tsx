@@ -9,6 +9,13 @@ import { useState } from 'react'
 import { Check, ChevronDown, ChevronUp, TrendingDown, TrendingUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
+import { formatTimeEST } from '@/lib/utils'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface StatRowProps {
   label: string
@@ -102,9 +109,20 @@ export function GameCard({ game, showPublishControls = false, showAsOf = true, i
               EV: {game.bestBet.ev >= 0 ? '+' : ''}{formatPercent(game.bestBet.ev)}
             </Badge>
           </div>
-          <Badge variant="outline" className="font-mono">
-            {formatOdds(game.bestBet.odds)}
-          </Badge>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Badge variant="outline" className="font-mono cursor-help">
+                  {formatOdds(game.bestBet.odds)}
+                </Badge>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs font-mono">
+                  Max odds: {formatOdds(game.bestBet.maxOdds)}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </CardHeader>
       <CardContent className="p-4 pt-2 space-y-4">
@@ -208,7 +226,7 @@ export function GameCard({ game, showPublishControls = false, showAsOf = true, i
         <div className="pt-2 flex justify-between items-center text-xs text-muted-foreground border-t">
           <div>Certainty: {formatPercent(game.modelCertainty)}</div>
           {showAsOf && (
-            <div>{new Date(game.asOf).toLocaleTimeString()}</div>
+            <div>{formatTimeEST(game.asOf)}</div>
           )}
         </div>
 
