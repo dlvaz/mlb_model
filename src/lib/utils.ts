@@ -21,15 +21,20 @@ export function formatDate(date: string | Date | null): string {
     const dateObj = typeof date === 'string' ? new Date(date) : date
     if (isNaN(dateObj.getTime())) return 'Invalid Date'
     
-    return new Intl.DateTimeFormat('en-US', {
+    const datePart = new Intl.DateTimeFormat('en-US', {
       weekday: 'short',
       month: 'short',
       day: 'numeric',
+    }).format(dateObj).replace(',', '')
+    
+    const timePart = new Intl.DateTimeFormat('en-US', {
       hour: 'numeric',
-      minute: 'numeric',
+      minute: '2-digit',
+      hour12: true,
       timeZone: 'America/New_York',
-      timeZoneName: 'short'
     }).format(dateObj)
+    
+    return `${datePart} @ ${timePart} EDT`
   } catch (error) {
     console.error('Error formatting date:', error)
     return 'Invalid Date'

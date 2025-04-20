@@ -4,7 +4,7 @@ import { getTopPicks, getAllPublishedGames } from '@/lib/supabase'
 import { transformGameData } from '@/lib/transforms'
 import { Badge } from '@/components/ui/badge'
 import { Clock } from 'lucide-react'
-import { formatDate, formatTimeEST } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 import { VersionBadge } from '@/components/version-badge'
 import { StatsExplainer } from '@/components/stats-explainer'
 import Image from 'next/image'
@@ -41,7 +41,7 @@ export default async function Home() {
             <div className="space-y-2 animate-in fade-in duration-1000">
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                 <Clock className="w-4 h-4" />
-                <span>Last updated: {formatTimeEST(latestUpdateTime)}</span>
+                <span>Last updated: {formatDate(new Date(latestUpdateTime))}</span>
               </div>
               <div className="flex items-center justify-center gap-4">
                 <Image 
