@@ -5,8 +5,8 @@ import type { Metadata } from 'next'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'MLB Model Dashboard',
-  description: 'MLB betting model results and analysis',
+  title: 'davaz MLB Dashboard',
+  description: "davaz made a winning model because he's tired of being cooked by parlaydegen and Reece.",
 }
 
 export default function RootLayout({
