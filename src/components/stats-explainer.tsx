@@ -3,76 +3,140 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { HelpCircle } from "lucide-react"
+import { Brain, Calculator, BarChart, HelpCircle, Scale } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export function StatsExplainer() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="hover:opacity-80 transition-opacity">
-          <HelpCircle className="w-6 h-6 text-muted-foreground" />
-        </button>
+        <Button variant="ghost" size="icon" className="h-8 w-8">
+          <HelpCircle className="h-5 w-5" />
+          <span className="sr-only">Stats Help</span>
+        </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold mb-4">How It Works</DialogTitle>
-          <DialogDescription className="space-y-6 text-left">
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-2 text-foreground">
-                🧠 How My Model Works
-              </h3>
-              <p className="mt-2">
-                This page showcases the top MLB bets today based on my custom-built statistical model.
-              </p>
-              <p className="mt-4">Each game is scored using a combination of:</p>
-              <ul className="list-disc pl-6 mt-2 space-y-2">
-                <li><span className="font-medium">Starting Pitching:</span> ERA, FIP, and WHIP are used to measure effectiveness</li>
-                <li><span className="font-medium">Offensive Power:</span> OPS (on-base + slugging) is averaged per team</li>
-                <li><span className="font-medium">Bullpen Strength:</span> ERA and WHIP from relievers</li>
-                <li><span className="font-medium">Market Odds:</span> The best available pregame odds from top sportsbooks</li>
-              </ul>
-              <p className="mt-4">
-                The model calculates a win probability for each team, then compares it to the market's implied odds to find bets with positive expected value (EV).
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-2 text-foreground">
-                🎯 What Makes a "Best Bet"?
-              </h3>
-              <p className="mt-2">To qualify as a Best Bet, the team must:</p>
-              <ul className="list-disc pl-6 mt-2 space-y-2">
-                <li>Be favored to win by the model</li>
-                <li>Offer positive expected value</li>
-                <li>Be priced at -150 or better (no heavy favorites)</li>
-              </ul>
-              <p className="mt-4">
-                If no value bet meets those conditions, the model falls back to the most likely winner based on performance — this is noted with a fallback_best_bet tag.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-2 text-foreground">
-                📊 What Do These Numbers Mean?
-              </h3>
-              <ul className="list-disc pl-6 mt-2 space-y-2">
-                <li><span className="font-medium">Model Win Probability:</span> The chance my model believes the team will win</li>
-                <li><span className="font-medium">Best Bet EV:</span> How much edge the model sees (in %)</li>
-                <li><span className="font-medium">Best Bet Odds:</span> The best current odds available from sportsbooks</li>
-                <li><span className="font-medium">Max Bettable Odds:</span> The worst odds you should accept before the bet loses value</li>
-                <li><span className="font-medium">Model Certainty:</span> How far the model's confidence deviates from a 50/50 coin flip</li>
-              </ul>
-              <p className="mt-4">
-                Only the top 3 best bets (with the highest EV) are marked as Top Pick.
-              </p>
-            </div>
-          </DialogDescription>
+          <DialogTitle className="flex items-center justify-center gap-2 text-2xl">
+            <HelpCircle className="w-6 h-6" />
+            What Do These Stats Mean?
+          </DialogTitle>
+          <p className="text-muted-foreground text-center mt-2">
+            My custom model analyzes every MLB game using real player and team stats — including starting pitcher performance, 
+            offensive power, bullpen strength, and matchup context — to estimate which team has the edge.
+          </p>
         </DialogHeader>
+
+        <div className="space-y-8 mt-6">
+          <div className="space-y-4">
+            <h3 className="font-medium flex items-center gap-2">
+              <Brain className="w-5 h-5" />
+              Model Outputs (per game)
+            </h3>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-medium">Model Win Probability (Home/Away)</h4>
+                <p className="text-sm text-muted-foreground">
+                  The model's estimated chance that each team will win the game, based on a weighted blend of:
+                </p>
+                <ul className="list-disc list-inside text-sm text-muted-foreground ml-4 mt-2">
+                  <li>Starting pitcher FIP & WHIP</li>
+                  <li>Team OPS (offensive strength)</li>
+                  <li>Bullpen ERA & WHIP</li>
+                </ul>
+                <p className="text-sm text-muted-foreground mt-2">
+                  (For example: 62.5% means the model gives that team a 62.5% chance to win)
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium">Expected Value (EV)</h4>
+                <p className="text-sm text-muted-foreground">
+                  The percentage edge a bettor gains based on the difference between the model's win probability and the implied odds from sportsbooks.
+                  → (Positive EV = a bet the model sees as underpriced)
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium">Best Bet</h4>
+                <p className="text-sm text-muted-foreground">
+                  The team (home or away) with the higher EV, as long as the odds are better than -150 and the model sees a statistical edge.
+                  If no team meets that threshold, the model picks the most likely winner based on the numbers — and marks it with a Fallback Best Bet.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium">Best Bet EV</h4>
+                <p className="text-sm text-muted-foreground">
+                  How much value is in the best bet, shown as a percent.
+                  → (The higher, the better. Anything {'>'} 0 is a positive EV bet.)
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium">Best Bet Odds</h4>
+                <p className="text-sm text-muted-foreground">
+                  The current sportsbook odds used when calculating the best bet (the most favorable line available from major books).
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium">Max Odds to Bet</h4>
+                <p className="text-sm text-muted-foreground">
+                  The worst odds you should take and still expect a positive value, based on the model's win probability.
+                  → (If the line moves past this number, the bet is no longer +EV.)
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium">Model Confidence</h4>
+                <p className="text-sm text-muted-foreground">
+                  How far the model's win probability is from a 50/50 coin flip — essentially a confidence score for the pick.
+                  → (Higher = more confident prediction)
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium">Top Pick</h4>
+                <p className="text-sm text-muted-foreground">
+                  The top 3 best bets of the day, ranked by expected value, and flagged to help you focus on the strongest plays.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="font-medium flex items-center gap-2">
+              <BarChart className="w-5 h-5" />
+              Where Does the Model Come From?
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              This model is built from real MLB data, including:
+            </p>
+            <ul className="list-disc list-inside text-sm text-muted-foreground ml-4">
+              <li>Starting pitcher metrics: ERA, FIP, and WHIP</li>
+              <li>Team offensive stats: OPS (on-base + slugging)</li>
+              <li>Bullpen performance: ERA & WHIP</li>
+              <li>Market odds from top sportsbooks</li>
+            </ul>
+            <p className="text-sm text-muted-foreground mt-4">
+              Each team is scored using a proprietary formula that weights:
+            </p>
+            <ul className="list-disc list-inside text-sm text-muted-foreground ml-4">
+              <li>40% Starting Pitching</li>
+              <li>30% Offensive Power</li>
+              <li>30% Bullpen Strength</li>
+            </ul>
+            <p className="text-sm text-muted-foreground mt-4">
+              The result: a transparent, data-driven way to spot smart bets — not just picks.
+            </p>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   )
