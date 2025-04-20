@@ -1,103 +1,114 @@
-import Image from "next/image";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { GameCard } from '@/components/game-card'
+import { getTopPicks, getAllPublishedGames } from '@/lib/supabase'
+import { transformGameData } from '@/lib/transforms'
+import { Badge } from '@/components/ui/badge'
+import { Clock } from 'lucide-react'
+import { formatDate } from '@/lib/utils'
+import { VersionBadge } from '@/components/version-badge'
 
-export default function Home() {
+export const revalidate = 60 // Revalidate every minute
+
+export default async function Home() {
+  const [topPicks, allGames] = await Promise.all([
+    getTopPicks(),
+    getAllPublishedGames(),
+  ])
+
+  const transformedTopPicks = topPicks.map(transformGameData)
+  const transformedAllGames = allGames.map(transformGameData)
+
+  // Get the latest update time from all games
+  const latestUpdateTime = transformedAllGames.length > 0
+    ? Math.max(...transformedAllGames.map(game => new Date(game.asOf).getTime()))
+    : null
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="min-h-screen bg-gradient-to-b from-background to-background/80">
+      <div className="container mx-auto px-4 py-12">
+        <div className="text-center space-y-4">
+          <div className="flex items-center justify-center gap-2">
+            <h1 className="text-4xl font-bold animate-in fade-in slide-in-from-top duration-700">
+              davaz MLB Model
+            </h1>
+            <VersionBadge />
+          </div>
+          {latestUpdateTime && (
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground animate-in fade-in duration-1000">
+              <Clock className="w-4 h-4" />
+              <span>Last updated: {new Date(latestUpdateTime).toLocaleString()}</span>
+            </div>
+          )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+        
+        <Tabs defaultValue="top-picks" className="w-full mt-8 animate-in fade-in-50 duration-1000">
+          <div className="flex justify-center mb-8">
+            <TabsList className="bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50">
+              <TabsTrigger value="top-picks">Top Picks</TabsTrigger>
+              <TabsTrigger value="all-games">All Games</TabsTrigger>
+            </TabsList>
+          </div>
+          
+          <TabsContent value="top-picks" className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+              {transformedTopPicks.map((game, index) => (
+                <div key={`top-${index}`} className="w-full">
+                  <GameCard game={game} index={index} showAsOf={false} />
+                </div>
+              ))}
+            </div>
+            {transformedTopPicks.length === 0 && (
+              <p className="text-center text-muted-foreground py-12">
+                No top picks available at the moment.
+              </p>
+            )}
+          </TabsContent>
+          
+          <TabsContent value="all-games" className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+              {transformedAllGames.map((game, index) => (
+                <div key={`all-${index}`} className="w-full">
+                  <GameCard game={game} index={index} showAsOf={false} />
+                </div>
+              ))}
+            </div>
+            {transformedAllGames.length === 0 && (
+              <p className="text-center text-muted-foreground py-12">
+                No published games available.
+              </p>
+            )}
+            {transformedAllGames.length > 0 && (
+              <div className="overflow-x-auto mt-8 rounded-lg border bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50">
+                <h3 className="text-lg font-mono font-semibold p-4 border-b">Market Data</h3>
+                <table className="w-full text-sm font-mono">
+                  <thead>
+                    <tr className="border-b bg-muted/50">
+                      <th className="text-left py-2 px-4">Teams</th>
+                      <th className="text-left py-2 px-4">Best Bet</th>
+                      <th className="text-right py-2 px-4">Odds</th>
+                      <th className="text-right py-2 px-4">EV</th>
+                      <th className="text-right py-2 px-4">Certainty</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transformedAllGames.map((game) => (
+                      <tr key={game.id} className="border-b hover:bg-muted/50 transition-colors">
+                        <td className="py-2 px-4">{game.away.teamName} @ {game.home.teamName}</td>
+                        <td className="py-2 px-4">{game.bestBet.team === 'home' ? game.home.teamName : game.away.teamName}</td>
+                        <td className="text-right py-2 px-4 tabular-nums">{game.bestBet.odds > 0 ? `+${game.bestBet.odds}` : game.bestBet.odds}</td>
+                        <td className={`text-right py-2 px-4 tabular-nums ${game.bestBet.ev >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                          {game.bestBet.ev >= 0 ? '+' : ''}{Number(game.bestBet.ev).toFixed(1)}%
+                        </td>
+                        <td className="text-right py-2 px-4 tabular-nums">{Number(game.modelCertainty).toFixed(1)}%</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
+    </main>
+  )
 }
