@@ -210,7 +210,7 @@ export function GameCard({ game, showPublishControls = false, showAsOf = true, i
               format={formatOdds}
             />
             <div className="mt-2 text-xs text-muted-foreground text-center">
-              Profitable down to {formatOdds(game.bestBet.maxOdds)}
+              Good to take down to {formatOdds(game.bestBet.maxOdds)}
             </div>
           </div>
         </div>
