@@ -1,0 +1,24 @@
+name: davaz-mlb-model
+region: nyc
+services:
+  - name: web
+    git:
+      branch: main
+      repo_clone_url: https://github.com/dlvaz/mlb_model.git
+    build_command: npm run build
+    run_command: npm start
+    envs:
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        scope: RUN_TIME
+        value: ${NEXT_PUBLIC_SUPABASE_URL}
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        scope: RUN_TIME
+        value: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - key: N8N_WEBHOOK_URL
+        scope: RUN_TIME
+        value: ${N8N_WEBHOOK_URL}
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    http_port: 3000
+    routes:
+      - path: / 
