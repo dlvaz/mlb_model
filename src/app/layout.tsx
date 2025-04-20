@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'davaz MLB Dashboard',
+  title: 'davaz MLB Locks Dashboard',
   description: "davaz made a winning model because he's tired of being cooked by parlaydegen and Reece. Better results than Mango throwing darts.",
 }
 

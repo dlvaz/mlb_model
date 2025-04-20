@@ -32,7 +32,7 @@ export default async function Home() {
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-2">
             <h1 className="text-4xl font-bold animate-in fade-in slide-in-from-top duration-700">
-              davaz MLB Model
+              davaz MLB Locks Dashboard
             </h1>
             <VersionBadge />
             <StatsExplainer />
@@ -49,6 +49,13 @@ export default async function Home() {
                   alt="KEKW emote" 
                   width={48} 
                   height={48} 
+                />
+                <Image 
+                  src="/KEKL.gif" 
+                  alt="KEKL emote" 
+                  width={48} 
+                  height={48} 
+                  unoptimized
                 />
                 <Image 
                   src="/PogO.png" 
