@@ -7,7 +7,8 @@ import { Clock } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 import { VersionBadge } from '@/components/version-badge'
 
-export const revalidate = 60 // Revalidate every minute
+export const dynamic = 'force-dynamic'
+export const revalidate = 0 // Disable static page regeneration
 
 export default async function Home() {
   const [topPicks, allGames] = await Promise.all([

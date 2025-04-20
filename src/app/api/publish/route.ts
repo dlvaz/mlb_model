@@ -18,10 +18,13 @@ export async function POST(request: Request) {
       published_at: new Date().toISOString(),
     })
 
-    revalidatePath('/admin')
-    revalidatePath('/')
+    // Force revalidate both paths
+    revalidatePath('/', 'layout')
+    revalidatePath('/admin', 'layout')
     
-    return NextResponse.json({ message: 'Game published successfully' })
+    const response = NextResponse.json({ message: 'Game published successfully' })
+    response.headers.set('Cache-Control', 'no-store')
+    return response
   } catch (error) {
     console.error('Error publishing game:', error)
     return NextResponse.json(
