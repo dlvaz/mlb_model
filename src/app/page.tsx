@@ -51,17 +51,17 @@ export default async function Home() {
                   height={48} 
                 />
                 <Image 
+                  src="/PogO.png" 
+                  alt="PogO emote" 
+                  width={48} 
+                  height={48} 
+                />
+                <Image 
                   src="/KEKL.gif" 
                   alt="KEKL emote" 
                   width={48} 
                   height={48} 
                   unoptimized
-                />
-                <Image 
-                  src="/PogO.png" 
-                  alt="PogO emote" 
-                  width={48} 
-                  height={48} 
                 />
               </div>
             </div>
