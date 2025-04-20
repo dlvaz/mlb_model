@@ -109,20 +109,9 @@ export function GameCard({ game, showPublishControls = false, showAsOf = true, i
               EV: {game.bestBet.ev >= 0 ? '+' : ''}{formatPercent(game.bestBet.ev)}
             </Badge>
           </div>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Badge variant="outline" className="font-mono cursor-help">
-                  {formatOdds(game.bestBet.odds)}
-                </Badge>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="text-xs font-mono">
-                  Max odds: {formatOdds(game.bestBet.maxOdds)}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Badge variant="outline" className="font-mono">
+            {formatOdds(game.bestBet.odds)}
+          </Badge>
         </div>
       </CardHeader>
       <CardContent className="p-4 pt-2 space-y-4">
@@ -220,6 +209,9 @@ export function GameCard({ game, showPublishControls = false, showAsOf = true, i
               awayValue={game.away.odds.moneyline} 
               format={formatOdds}
             />
+            <div className="mt-2 text-xs text-muted-foreground text-center">
+              Profitable down to {formatOdds(game.bestBet.maxOdds)}
+            </div>
           </div>
         </div>
 
