@@ -8,6 +8,7 @@ import { formatDate } from '@/lib/utils'
 import { VersionBadge } from '@/components/version-badge'
 import { StatsExplainer } from '@/components/stats-explainer'
 import Image from 'next/image'
+import { Testimonials } from '@/components/testimonials'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0 // Disable static page regeneration
@@ -64,6 +65,9 @@ export default async function Home() {
                 height={48} 
                 unoptimized
               />
+            </div>
+            <div className="mt-8">
+              <Testimonials />
             </div>
           </div>
         </div>
