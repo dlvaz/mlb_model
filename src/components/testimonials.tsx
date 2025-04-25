@@ -30,11 +30,15 @@ export function Testimonials() {
     {
       quote: "At the end of the day all you've done is dress up a coin flip in a suit",
       author: "parlaydegen"
+    },
+    {
+      quote: "Where's my quote?",
+      author: "100p"
     }
   ]
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
       {testimonials.map((testimonial, index) => (
         <Testimonial key={index} {...testimonial} />
       ))}
